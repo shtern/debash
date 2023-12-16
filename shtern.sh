@@ -3,7 +3,7 @@ YELLOW="\033[01;33m"
 WHITE_ON_YELLOW="\033[97;43m"
 GREEN="\[\033[01;32m\]"
 WHITE_ON_GREEN="\[\033[97;42m\]"
-BLUE="\[\033[01;34m\]"
+BLUE="\033[01;34m"
 WHITE_ON_BLUE="\[\033[97;44m\]"
 NO_COLOR="\033[00m"
 WHITE="\[\033[01;37m\]"
@@ -13,6 +13,7 @@ WHITE_ON_ORANGE="\033[97;48;5;208m"  # White text on orange background
 CYAN="\033[0;36m"
 BLUE_ON_CYAN="\033[0;44m"
 WHITE_ON_CYAN="\033[97;46m"   # White text on cyan background
+BLUE_ON_CYAN="\033[0;34;46m"
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$script_dir/git_update_status.sh"
@@ -87,16 +88,16 @@ function parse_git_branch() {
       if [ -n "$git_status" ]; then
         status_info=" ($git_status)"
       fi
-      echo -ne "${WHITE_ON_CYAN}  $branch_name${NO_COLOR}${CYAN}$status_info"
+      echo -ne "${BLUE_ON_CYAN}${WHITE_ON_CYAN}  $branch_name${NO_COLOR}${CYAN}$status_info"
     else
-      echo ""
+      echo -ne "${NO_COLOR}${BLUE}"
     fi
   else
-    echo ""
+    echo -ne "${NO_COLOR}${BLUE}"
   fi
 }
 
-PS1="${WHITE_ON_GREEN}$USER${NO_COLOR}${GREEN_ON_BLUE}${WHITE_ON_BLUE}\w${NO_COLOR}${BLUE}\$(parse_git_branch)\n$BLUE $WHITE"
+PS1="${WHITE_ON_GREEN}$USER${NO_COLOR}${GREEN_ON_BLUE}${WHITE_ON_BLUE}\w\$(parse_git_branch)\n\[$BLUE\] $WHITE"
 
 # Function to reset text color after command execution
 reset_color() {
